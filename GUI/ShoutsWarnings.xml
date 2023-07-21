@@ -1,0 +1,92 @@
+﻿<!--
+original authors: Donald Ephraim Curtis, Grumpey
+current authors:  Zulah, Xianghar
+TotemTimers: Movable Totem Timers and Totem Expiration Notification and Totem Casting Bars
+-->
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../UI.xsd">
+
+  <Frame name="TotemTimers_GUI_Shouts" hidden="true">
+	<Frames>
+	  <CheckButton name="TotemTimers_GUI_CheckEarthShout" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativeTo="$parent">
+			<Offset x="20" y="-15"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <EditBox name="TotemTimers_GUI_EditEarthShout" multiLine="false" autoFocus="false" inherits="InputBoxTemplate">
+		<Size x="350" y="16"/>
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_CheckEarthShout"/>
+		</Anchors>
+		<Scripts>
+		  <OnShow>
+			this:SetText(TotemTimers_Settings.EarthShoutText)
+		  </OnShow>
+		  <OnTextChanged>
+			TotemTimers_Settings.EarthShoutText = this:GetText()
+		  </OnTextChanged>
+		</Scripts>
+	  </EditBox>
+	  <CheckButton name="TotemTimers_GUI_CheckFireShout" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckEarthShout">
+			<Offset x="0" y="-35"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <EditBox name="TotemTimers_GUI_EditFireShout" multiLine="false" autoFocus="false" inherits="InputBoxTemplate">
+		<Size x="350" y="16"/>
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_CheckFireShout"/>
+		</Anchors>
+		<Scripts>
+		  <OnShow>
+			this:SetText(TotemTimers_Settings.FireShoutText)
+		  </OnShow>
+		  <OnTextChanged>
+			TotemTimers_Settings.FireShoutText = this:GetText()
+		  </OnTextChanged>
+		</Scripts>
+	  </EditBox>
+	  <CheckButton name="TotemTimers_GUI_CheckManaShout" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckFireShout">
+			<Offset x="0" y="-35"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <EditBox name="TotemTimers_GUI_EditManaShout" frameStrata="DIALOG" multiLine="false" autoFocus="false" inherits="InputBoxTemplate">
+		<Size x="350" y="16"/>
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_CheckManaShout"/>
+		</Anchors>
+		<Scripts>
+		  <OnShow>
+			this:SetText(TotemTimers_Settings.ManaShoutText)
+		  </OnShow>
+		  <OnTextChanged>
+			TotemTimers_Settings.ManaShoutText = this:GetText()
+		  </OnTextChanged>
+		</Scripts>
+	  </EditBox>
+	</Frames>
+	<Scripts>
+		<OnLoad>
+			this.name = TT_GUI_TAB_SHOUTS
+			this.parent = "TotemTimers "..tostring(GetAddOnMetadata("TotemTimers", "Version"))
+			InterfaceOptions_AddCategory(this)
+			this:RegisterEvent("PLAYER_REGEN_DISABLED")
+		</OnLoad>
+		<OnShow>
+			TotemTimers_LastGUIPane = this
+		</OnShow>
+		<OnEvent>
+			InterfaceOptionsFrame:Hide()
+		</OnEvent>
+	</Scripts>
+  </Frame>
+ 
+</Ui>
+
+

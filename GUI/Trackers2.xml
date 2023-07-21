@@ -1,0 +1,293 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../UI.xsd">
+
+
+  <Frame name="TotemTimers_GUI_Trackers2" hidden="true">
+	<Layers>
+	  <Layer level="ARTWORK">
+		<FontString name="TotemTimers_GUI_TextShieldButtons" inherits="GameFontNormal" justifyH="left" text="TT_GUI_SHIELDTRACKER">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativeTo="$parent"> 
+				<Offset x="20" y="-15"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="180" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextShieldLeftButton" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_LEFTCLICK">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativeTo="TotemTimers_GUI_TextShieldButtons"> 
+				<Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="80" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextShieldRightButton" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_RIGHTCLICK">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextShieldLeftButton">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="80" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextShieldMiddleButton" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_MIDDLECLICK">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextShieldRightButton">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="80" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextEarthShieldButtons" inherits="GameFontNormal" justifyH="left" text="TT_GUI_EARTHSHIELDTRACKER">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextShieldMiddleButton">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="180" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextEarthShieldLeftButton" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_LEFTCLICK">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextEarthShieldButtons">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="80" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextEarthShieldRightButton" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_RIGHTCLICK">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextEarthShieldLeftButton">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="80" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextEarthShieldMiddleButton" inherits="GameFontNormalSmall" justifyH="LEFT"  text="TT_GUI_MIDDLECLICK">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextEarthShieldRightButton">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="80" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextEarthShieldButton4" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_BUTTON4CLICK">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextEarthShieldMiddleButton">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="80" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextWeaponBuffLeftClick" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_WEAPONBUFFLEFTCLICK">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextEarthShieldButton4">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="150" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextWeaponBuffRightClick" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_WEAPONBUFFRIGHTCLICK">
+		  <Anchors>
+			<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextWeaponBuffLeftClick">
+			  <Offset x="40" y="0"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="150" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextWeaponBuffModifier" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_WEAPONBUFFMODIFIER">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextWeaponBuffLeftClick">
+			  <Offset x="0" y="-70"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="80" y="10"/>
+		</FontString>
+	  </Layer>
+	</Layers>
+	<Frames>
+	  <Button name="TotemTimers_GUI_DropdownShieldLeftButton" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextShieldLeftButton">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownShieldButton_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_DropdownShieldLeftButton_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownShieldRightButton" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextShieldRightButton">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownShieldButton_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_DropdownShieldRightButton_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownShieldMiddleButton" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextShieldMiddleButton">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownShieldButton_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_DropdownShieldMiddleButton_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownEarthShieldLeftButton" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextEarthShieldLeftButton">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownEarthShieldButton_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_DropdownEarthShieldLeftButton_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownEarthShieldRightButton" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextEarthShieldRightButton">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownEarthShieldButton_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_DropdownEarthShieldRightButton_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownEarthShieldMiddleButton" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextEarthShieldMiddleButton">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownEarthShieldButton_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_DropdownEarthShieldMiddleButton_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownEarthShieldButton4" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextEarthShieldButton4">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownEarthShieldButton_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_DropdownEarthShieldButton4_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownWeaponBuffLeftClick" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextWeaponBuffLeftClick">
+			<Offset x="-17" y="-2"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnShow>
+			TotemTimers_GUI_DropdownWeaponBuffLeftClick_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownWeaponBuffRightClick" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextWeaponBuffRightClick">
+			<Offset x="-17" y="-2"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnShow>
+			TotemTimers_GUI_DropdownWeaponBuffRightClick_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownWeaponBuffShiftLeftClick" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_DropdownWeaponBuffLeftClick">
+			<Offset x="0" y="2"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnShow>
+			TotemTimers_GUI_DropdownWeaponBuffShiftLeftClick_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownWeaponBuffShiftRightClick" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_DropdownWeaponBuffRightClick">
+			<Offset x="0" y="2"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnShow>
+			TotemTimers_GUI_DropdownWeaponBuffShiftRightClick_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownWeaponBuffModifier" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextWeaponBuffModifier">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnShow>
+			TotemTimers_GUI_DropdownWeaponBuffModifier_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+    </Frames>
+	<Scripts>
+		<OnLoad>
+			this.name = TT_GUI_TAB_TRACKERS2
+			this.parent = "TotemTimers "..tostring(GetAddOnMetadata("TotemTimers", "Version"))
+			InterfaceOptions_AddCategory(this)
+			this:RegisterEvent("PLAYER_REGEN_DISABLED")
+		</OnLoad>
+		<OnShow>
+			TotemTimers_LastGUIPane = this
+			if InCombatLockdown() then
+				InterfaceOptionsFrame:Hide()
+			end
+		</OnShow>
+		<OnEvent>
+			InterfaceOptionsFrame:Hide()
+		</OnEvent>
+	</Scripts>			
+  </Frame>
+ 
+</Ui>
+
+

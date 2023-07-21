@@ -1,0 +1,244 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../UI.xsd">
+ 
+  <Frame name="TotemTimers_GUI_Trackers" hidden="true">
+	<Layers>
+	  <Layer level="ARTWORK">
+		<FontString name="TotemTimers_GUI_TextTrackerArrange" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_DROPDOWN_ARRANGE">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent">
+			  <Offset x="20" y="-130"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="110" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TrackerTimePosText" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_DROPDOWN_TRACKERTIMEPOS">
+		  <Anchors>
+			<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_TextTrackerArrange">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="110" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextTrackerSize" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_TRACKERSIZE">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TrackerTimePosText">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size>
+			<AbsDimension x="110" y="10"/>
+		  </Size>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextTrackerTimeHeight" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_TRACKERTIMEHEIGHT">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextTrackerSize">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="110" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextTrackerSpacing" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_TRACKERSPACING">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextTrackerTimeHeight">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="110" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TextTrackerTimeSpacing" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_TRACKERTIMESPACING">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextTrackerSpacing">
+			  <Offset x="0" y="-20"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="110" y="10"/>
+		</FontString>			
+	  </Layer>
+	</Layers>
+	<Frames>
+	  <CheckButton name="TotemTimers_GUI_CheckReincarnation" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativeTo="$parent">
+			<Offset x="20" y="-15"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckShieldTracker" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckReincarnation">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckEarthShieldTracker" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShieldTracker">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckMainEnchant" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckEarthShieldTracker">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <Slider name="TotemTimers_GUI_TrackerSize" valueStep="1" minValue="16" maxValue="96" inherits="OptionsSliderTemplate" hidden="false">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextTrackerSize"/>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			getglobal(this:GetName().."High"):SetText(96);
+			getglobal(this:GetName().."Low"):SetText(16);
+		  </OnLoad>
+		  <OnShow>
+			this:SetValue(TotemTimers_Settings.TrackerSize);
+		  </OnShow>
+		  <OnValueChanged>
+			TotemTimers_Settings.TrackerSize = this:GetValue()
+			GameTooltip:SetText(TotemTimers_Settings.TrackerSize)
+			TotemTimers_OrderTrackers()
+		  </OnValueChanged>
+		  <OnEnter>
+			GameTooltip:SetOwner(this, "ANCHOR_CURSOR")
+			GameTooltip:SetText(TotemTimers_Settings.TrackerSize)
+		  </OnEnter>
+		  <OnLeave>
+			GameTooltip:Hide()
+		  </OnLeave>
+		</Scripts>
+	  </Slider>
+	  <Slider name="TotemTimers_GUI_TrackerTimeHeight" valueStep="1" minValue="6" maxValue="40" inherits="OptionsSliderTemplate" hidden="false">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextTrackerTimeHeight"/>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			getglobal(this:GetName().."High"):SetText(40);
+			getglobal(this:GetName().."Low"):SetText(6);
+		  </OnLoad>
+		  <OnShow>
+			this:SetValue(TotemTimers_Settings.TrackerTimeHeight);
+		  </OnShow>
+		  <OnValueChanged>
+			TotemTimers_Settings.TrackerTimeHeight = this:GetValue()
+			GameTooltip:SetText(TotemTimers_Settings.TrackerTimeHeight)
+			TotemTimers_OrderTrackers()
+		  </OnValueChanged>
+		  <OnEnter>
+			GameTooltip:SetOwner(this, "ANCHOR_CURSOR")
+			GameTooltip:SetText(TotemTimers_Settings.TrackerTimeHeight)
+		  </OnEnter>
+		  <OnLeave>
+			GameTooltip:Hide()
+		  </OnLeave>
+		</Scripts>
+	  </Slider>
+	  <Slider name="TotemTimers_GUI_TrackerSpacing" valueStep="1" minValue="0" maxValue="20" inherits="OptionsSliderTemplate" hidden="false">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextTrackerSpacing">
+			<Offset x="0" y="0"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			getglobal(this:GetName().."High"):SetText(20);
+			getglobal(this:GetName().."Low"):SetText(0);
+		  </OnLoad>
+		  <OnShow>
+			this:SetValue(TotemTimers_Settings.TrackerSpacing);
+		  </OnShow>
+		  <OnValueChanged>
+			TotemTimers_Settings.TrackerSpacing = this:GetValue()
+			GameTooltip:SetText(TotemTimers_Settings.TrackerSpacing)
+			TotemTimers_OrderTrackers()
+		  </OnValueChanged>
+		  <OnEnter>
+			GameTooltip:SetOwner(this, "ANCHOR_CURSOR")
+			GameTooltip:SetText(TotemTimers_Settings.TrackerSpacing)
+		  </OnEnter>
+		  <OnLeave>
+			GameTooltip:Hide()
+		  </OnLeave>
+		</Scripts>
+	  </Slider>
+	  <Slider name="TotemTimers_GUI_TrackerTimeSpacing" valueStep="1" minValue="0" maxValue="20" inherits="OptionsSliderTemplate" hidden="false">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextTrackerTimeSpacing">
+			<Offset x="0" y="0"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			getglobal(this:GetName().."High"):SetText(20);
+			getglobal(this:GetName().."Low"):SetText(0);
+		  </OnLoad>
+		  <OnShow>
+			this:SetValue(TotemTimers_Settings.TrackerTimeSpacing);
+		  </OnShow>
+		  <OnValueChanged>
+			TotemTimers_Settings.TrackerTimeSpacing = this:GetValue()
+			GameTooltip:SetText(TotemTimers_Settings.TrackerTimeSpacing)
+			TotemTimers_OrderTrackers()
+		  </OnValueChanged>
+		  <OnEnter>
+			GameTooltip:SetOwner(this, "ANCHOR_CURSOR")
+			GameTooltip:SetText(TotemTimers_Settings.TrackerTimeSpacing)
+		  </OnEnter>
+		  <OnLeave>
+			GameTooltip:Hide()
+		  </OnLeave>
+		</Scripts>
+	  </Slider>
+	  <Button name="TotemTimers_GUI_DropdownTrackerArrange" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextTrackerArrange">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownTrackerArrange_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_DropdownTrackerArrange_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_DropdownTrackerTimePos" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TrackerTimePosText">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownTrackerTimePos_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_DropdownTrackerTimePos_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	</Frames>
+	<Scripts>
+		<OnLoad>
+			this.name = TT_GUI_TAB_TRACKERS
+			this.parent = "TotemTimers "..tostring(GetAddOnMetadata("TotemTimers", "Version"))
+			InterfaceOptions_AddCategory(this)
+			this:RegisterEvent("PLAYER_REGEN_DISABLED")
+		</OnLoad>
+		<OnShow>
+			TotemTimers_LastGUIPane = this
+		</OnShow>
+		<OnEvent>
+			InterfaceOptionsFrame:Hide()
+		</OnEvent>
+	</Scripts>
+  </Frame>
+
+</Ui>
+
+

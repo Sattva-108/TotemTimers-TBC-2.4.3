@@ -1,0 +1,55 @@
+## Interface: 20400
+## Title: TotemTimers
+## Author:  Xianghar
+## Version: 8.1d
+## SavedVariablesPerCharacter: TTActiveTotems, TotemTimers_Order, TotemTimers_Settings, TotemTimers_TotemSets
+## OptionalDeps: sct, MikScrollingBattleText, Parrot, cyCircled, LibSharedMedia-3.0
+
+localization.lua
+localization.ge.lua
+localization.fr.lua
+localization.es.lua
+localization.ru.lua
+localization.cn.lua
+localization.tw.lua
+TotemData.lua
+DefaultSettings.lua
+SetupFrames.lua
+TimerButtons.lua 
+TotemSets.lua
+Bindings.lua
+Buffs.lua
+TotemTimers.lua
+TotemTimers.xml
+Trackers.xml
+Trackers.lua
+TotemSets.xml
+cyCircled.lua
+GUI\localization.lua
+GUI\localization.ge.lua
+GUI\localization.fr.lua
+GUI\localization.es.lua
+GUI\localization.cn.lua
+GUI\localization.tw.lua
+GUI\General.lua
+GUI\General.xml
+GUI\Timers.lua
+GUI\Timers.xml
+GUI\Timers2.lua
+GUI\Timers2.xml
+GUI\Trackers.lua
+GUI\Trackers.xml
+GUI\Trackers2.lua
+GUI\Trackers2.xml
+GUI\Messages.lua
+GUI\Messages.xml
+GUI\ShoutsWarnings.lua
+GUI\ShoutsWarnings.xml
+GUI\Totems.xml
+GUI\Totems.lua
+
+
+
+
+
+

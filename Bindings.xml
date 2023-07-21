@@ -1,0 +1,54 @@
+<Bindings>
+	<Binding name="TOTEMTIMERSEARTH" description="Drop active earth totem" header="TOTEMTIMERSHEADER">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSAIR" description="Drop active air totem">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSFIRE" description="Drop active fire totem">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSWATER" description="Drop active water totem">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSEARTHMENU" description="Open earth totem menu">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSAIRMENU" description="Open air totem menu">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSFIREMENU" description="Open fire totem menu">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSWATERMENU" description="Open water totem menu">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSCALL" description="Totemic Call">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSLIGHTNINGSHIELD" description="Lightning Shield">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSWATERSHIELD" description="Water Shield">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSEARTHSHIELDFOCUS" description="Earth Shield on Focus">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSEARTHSHIELDTARGET" description="Earth Shield on Target">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSEARTHSHIELDSELF">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSWEAPONBUFF1" description="Weapon Buff 1">--[[dummy]]</Binding>
+	<Binding name="TOTEMTIMERSWEAPONBUFF2" description="Weapon Buff 2">--[[dummy]]</Binding>
+	
+	<Binding name="TT_STRENGTH_OF_EARTH">--[[dummy]]</Binding>
+	<Binding name="TT_STONESKIN">--[[dummy]]</Binding>
+	<Binding name="TT_EARTHBIND">--[[dummy]]</Binding>
+	<Binding name="TT_TREMOR">--[[dummy]]</Binding>
+	<Binding name="TT_STONECLAW">--[[dummy]]</Binding>
+	<Binding name="TT_EARTH_ELEMENTAL">--[[dummy]]</Binding>
+	
+	<Binding name="TT_SEARING">--[[dummy]]</Binding>
+	<Binding name="TT_MAGMA">--[[dummy]]</Binding>
+	<Binding name="TT_FIRE_NOVA">--[[dummy]]</Binding>
+	<Binding name="TT_WRATH">--[[dummy]]</Binding>
+	<Binding name="TT_FIRE_ELEMENTAL">--[[dummy]]</Binding>
+	<Binding name="TT_FROST_RESISTANCE">--[[dummy]]</Binding>
+	<Binding name="TT_FLAMETONGUE">--[[dummy]]</Binding>
+	
+	<Binding name="TT_MANA_SPRING">--[[dummy]]</Binding>
+	<Binding name="TT_HEALING_STREAM">--[[dummy]]</Binding>
+	<Binding name="TT_MANA_TIDE">--[[dummy]]</Binding>
+	<Binding name="TT_POISON_CLEANSING">--[[dummy]]</Binding>
+	<Binding name="TT_DISEASE_CLEANSING">--[[dummy]]</Binding>
+	<Binding name="TT_FIRE_RESISTANCE">--[[dummy]]</Binding>
+	
+	<Binding name="TT_GRACE_OF_AIR">--[[dummy]]</Binding>
+	<Binding name="TT_GROUNDING">--[[dummy]]</Binding>
+	<Binding name="TT_NATURE_RESISTANCE">--[[dummy]]</Binding>
+	<Binding name="TT_SENTRY">--[[dummy]]</Binding>
+	<Binding name="TT_TRANQUIL_AIR">--[[dummy]]</Binding>
+	<Binding name="TT_WINDFURY">--[[dummy]]</Binding>
+	<Binding name="TT_WINDWALL">--[[dummy]]</Binding>
+	<Binding name="TT_WRATH_AIR">--[[dummy]]</Binding>
+	
+	<Binding name="TT_WINDFURY_WEAPON">--[[dummy]]</Binding>
+	<Binding name="TT_ROCKBITER_WEAPON">--[[dummy]]</Binding>
+	<Binding name="TT_FLAMETONGUE_WEAPON">--[[dummy]]</Binding>
+	<Binding name="TT_FROSTBRAND_WEAPON">--[[dummy]]</Binding>
+</Bindings>

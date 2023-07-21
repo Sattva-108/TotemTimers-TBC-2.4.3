@@ -1,0 +1,199 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+  <CheckButton name="TotemTimersTrackerTemplate" parent="UIParent" virtual="true" hidden="true" clampedToScreen="true" movable="true" enableMouse="true" inherits="SecureActionButtonTemplate, ActionButtonTemplate">
+    <Size x="30" y="30"/>
+    <Anchors>
+      <Anchor point="CENTER"/>
+    </Anchors>
+    <Frames>
+      <StatusBar name="$parentTimerBar">
+        <Size>
+          <AbsDimension x="32" y="10"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOP" relativePoint="BOTTOM"/>
+        </Anchors>
+ 		<BarTexture file="Interface\TargetingFrame\UI-StatusBar"/> 
+        <BarColor r="0.2" g="0.2" b="1.0" a="0.7"/>
+		<Layers>
+		  <Layer level="OVERLAY">
+			<FontString name="$parentTime" inherits="GameFontNormalSmall" justifyH="CENTER">
+			  <Size>
+				<AbsDimension x="60" y="10"/>
+			  </Size>
+			  <Anchors>
+				<Anchor point="CENTER" relativePoint="CENTER"/>
+			  </Anchors>
+			</FontString>
+		  </Layer>
+		</Layers>
+        <Scripts>
+          <OnLoad>
+            this:SetMinMaxValues(0,5)
+            this:SetValue(0)
+			this:SetFrameLevel(this:GetParent():GetFrameLevel())
+          </OnLoad>
+        </Scripts>
+      </StatusBar> 
+      <StatusBar name="$parentTimerBar2">
+        <Size>
+          <AbsDimension x="32" y="10"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parentTimerBar"/>
+        </Anchors>
+ 		<BarTexture file="Interface\TargetingFrame\UI-StatusBar"/> 
+        <BarColor r="0.2" g="0.2" b="1.0" a="0.7"/>
+		<Layers>
+		  <Layer level="OVERLAY">
+			<FontString name="$parentTime" inherits="GameFontNormalSmall" justifyH="CENTER">
+			  <Size>
+				<AbsDimension x="60" y="10"/>
+			  </Size>
+			  <Anchors>
+				<Anchor point="CENTER" relativePoint="CENTER"/>
+			  </Anchors>
+			</FontString>
+		  </Layer>
+		</Layers>
+        <Scripts>
+          <OnLoad>
+            this:SetMinMaxValues(0,5)
+            this:SetValue(0)
+			this:SetFrameLevel(this:GetParent():GetFrameLevel())
+          </OnLoad>
+        </Scripts>
+      </StatusBar> 
+    </Frames>
+    <Scripts>
+      <OnDragStart>
+        if not TotemTimers_Settings.Lock and not InCombatLockdown() then
+          if TotemTimers_Settings.TrackerArrange=="free" then
+            this:StartMoving()
+          else
+            TotemTimers_TrackerFrame:StartMoving()
+          end
+        end
+      </OnDragStart>
+      <OnDragStop>
+        this:StopMovingOrSizing()
+        TotemTimers_TrackerFrame:StopMovingOrSizing()
+      </OnDragStop>
+    </Scripts>
+    <NormalTexture/>
+  </CheckButton>
+  
+
+  <Button name="TotemTimers_Ankh" inherits="TotemTimersTrackerTemplate, SecureAnchorEnterTemplate">
+    <Scripts>
+      <OnShow>
+        this:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+        this:RegisterEvent("BAG_UPDATE")
+		this:RegisterForDrag("LeftButton")
+        TotemTimers_AnkhIcon:SetTexture(GetSpellTexture(TT_REINCARNATION))
+        local ankhs = GetItemCount(17030)
+        TotemTimers_AnkhCount:SetText(ankhs)
+        if ankhs == 0 then
+        TotemTimers_AnkhIcon:SetVertexColor(0.5,0.5,1.0)
+        else
+        TotemTimers_AnkhIcon:SetVertexColor(1.0,1.0,1.0)
+        end
+        local start, duration, enable = GetSpellCooldown(TT_REINCARNATION)
+        CooldownFrame_SetTimer(TotemTimers_AnkhCooldown, start, duration, enable)
+		TotemTimers_AnkhTimerBar:SetMinMaxValues(0,3600)
+		</OnShow>
+      <OnHide>
+        this:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
+        this:UnregisterEvent("BAG_UPDATE")
+      </OnHide>
+      <OnEvent>
+		TotemTimers_Ankh_OnEvent(self, event)
+      </OnEvent>
+	  <OnClick>
+		TotemTimers_Ankh_OnClick(arg1)
+	  </OnClick>
+    </Scripts>
+    <PushedTexture/>
+    <HighlightTexture/>
+  </Button>
+
+  <Button name="TotemTimers_Shield" inherits="TotemTimersTrackerTemplate">
+    <Scripts>
+      <OnShow>
+        this:RegisterEvent("PLAYER_AURAS_CHANGED")
+        this:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+		TotemTimers_ShieldTimerBar:SetMinMaxValues(0,600)
+      </OnShow>
+      <OnHide>
+        this:UnregisterEvent("PLAYER_AURAS_CHANGED")
+        this:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+      </OnHide>
+      <OnEvent>
+        TotemTimers_ShieldOnEvent(self, event, ...)
+      </OnEvent>
+    </Scripts>
+  </Button>
+
+  <Button name="TotemTimers_EarthShield" inherits="TotemTimersTrackerTemplate">
+    <Scripts>
+      <OnShow>
+		if not TotemTimers_SpellIDs[TT_EARTH_SHIELD] or TotemTimers_SpellIDs[TT_EARTH_SHIELD] == 0 then
+			this:Hide()
+			return
+		end
+		TotemTimers_EarthShieldIcon:SetTexture(GetSpellTexture(TT_EARTH_SHIELD))
+        this:RegisterEvent("UNIT_AURA")
+		this:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+		TotemTimers_EarthShieldTimerBar:SetMinMaxValues(0,600)
+      </OnShow>
+      <OnHide>
+        this:UnregisterEvent("UNIT_AURA")
+		this:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+      </OnHide>
+      <OnEvent>
+        TotemTimers_EarthShield_OnEvent(self, event, ...)
+      </OnEvent>
+    </Scripts>
+  </Button>
+
+  <Button name="TotemTimers_MainHand" inherits="TotemTimersTrackerTemplate">
+    <Layers>
+      <Layer level="BACKGROUND">
+        <FontString name="$parentTime2" inherits="GameFontNormalSmall" justifyH="CENTER">
+          <Anchors>
+            <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parentTime"/>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <Frame frameStrata="LOW" name="TotemTimers_MainHandIcon2Frame">
+        <Size x="15" y="30"/>
+        <Anchors>
+          <Anchor point="RIGHT" relativePoint="RIGHT"/>
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture name="TotemTimers_MainHandIcon2"/>
+          </Layer>
+        </Layers>
+      </Frame>
+    </Frames>
+    <Scripts>
+      <OnShow>
+        TotemTimers_MainHandOnShow(self)
+      </OnShow>
+      <OnHide>
+        this:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+		self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
+      </OnHide>
+      <OnEvent>
+        TotemTimers_MainHandOnEvent(event, ...)
+      </OnEvent>
+    </Scripts>
+  </Button>
+  
+  
+</Ui>
+

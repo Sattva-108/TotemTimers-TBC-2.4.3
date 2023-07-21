@@ -1,0 +1,180 @@
+8.1d
+	- Fixed ankh timerbar display
+	- Fixed small error with GoGoMount
+	- Updated Russian localization
+8.1c
+	- Fixed error messages for low level shamans
+8.1b
+	- Hiding Blizzard's timers is now optional but enabled by default
+8.1a
+	- Small fix for the weapon tracker
+8.1
+	- Added support for up to 8 totem sets:
+	  Rightclicking the ankh tracker saves the totem currently set to the timers as a set.
+	  Leftclicking the ankh timer opens a menu with all set.
+	  Leftclicking a set button loads that set to the timers.
+	  Rightclicking a set button deletes it.
+	- Added option to focus your elementals if you click the elemental buttons a second time
+	- If you use LibSharedMedia3 you can change the font of all timers and the texture of all timer bars
+	- Added optional timer bars to trackers
+	- Added tracker spacing slider
+	- Added slider for spacing between timer/tracker buttons and time
+	- Added option to display the time to the top, left, right or bottom of the timer/tracker button
+	- Added option to color totem timer bars according to their elements
+	- Added support for Russian client, thx to DonSlonik
+8.0b
+	- Fixed weapon tracker
+	- Fixed French localisation
+	- Fixed macro not updating if all macro slots are used and TT macro exists
+8.0a
+	- Fixed buff dots texture
+	- Fixed "buff" and "fixed" timer styles
+	- Fixed changing timer style
+	- Fixed agi/wf rotation
+	- Updated zhCN localisation, thx to vanilla_snow
+	
+8.0
+	- Updated for 2.4, TT now uses the new totem functions, so earth and fire elemental
+	  should be correctly tracked now
+	- TotemTimers hides the new 2.4 totem frame
+	- Moved options gui to Blizz's new interface gui, can still be opened via /tt
+	- Totems can be shown as buffs, Totems are destroyed if the buff icon is rightclicked,
+	  will not work with a number of addons and is only tested with the default buff frame so far
+	- If mouseover is enabled totems can be destroyed with a rightclick on their timer
+	  button, if mouseover is disabled totems can be destroyed via the middle button
+	- Class colored dots on the a side of the timer buttons indicate which party members are
+	  affected by your totems, the topmost/leftmost dot refers to the first party member, the
+	  bottommost/rightmost to your fourth party member (button side can be set in options gui)
+	- Added zhTW localization, thanks to natural_leaf
+	- updated zhCN localizations, thanks to vanilla_snow
+	- Rewrote Earth Shield and weapon trackers to be more accurate
+	  (weapon tracker still needs an update in zhTW localization)
+	- Added options for showing warnings as crits in sct
+	- Added spacing options for timer buttons
+	- Added additional cooldown Timers for Elementals and Mana Tide Totem
+	- Added twisting timer for WF and Grace of Air Totem
+	- Optional the air timer rotates between WF and GoA
+	Changes from Beta6:
+	- Added option to disable menu closing delay
+	- The order of the totems in the menus is now set via the options gui
+	- Totems can be hidden from the menus
+	- Added red dots which indicate whether the player gets the totem's buff
+  
+	
+7.2k
+	- The blue timer bars should now always be behind the times
+	- Better scaling compatibility with cycircled
+7.2j
+	- Updated French localisation
+	- Grounding Totem timer is now removed when the totem absorbs non-damaging spells
+7.2i
+	- Fixed error msg when casting Searing Totem with buff style and enabled timer bars
+7.2h
+	- Fixed error with keybindings on load on non-shamans
+7.2g
+	- Fixed error on load if cyCircled is not used
+7.2f
+	- Fixed options gui showing wrong spell for shift-rightclicking the weapon buff button
+	- Fixed "Show Totem Timers" option, now works for all buttons and on startup
+	- Added support for Parrot for warning messages
+	- Added support for cyCircled, not yet finished
+
+7.2e
+	- Fixed code tainting on totem cast
+	- "fixed" style now disables recasting and mini icons like "buff" style
+	- Totem castsequence macro resets after 60 secs
+	- Fixed errors if SetBinding is called on load
+	- Direction of totem menus can be set via the options gui
+	- Added option to disable totem keybinds
+7.2d
+	- Fixed reincarnation timer
+7.2c
+	- Fixed time display for patch 2.3
+7.2b
+	- Fixed Earth Shield tracker
+	- Fixed Shield and Earth Shield tracker showing wrong icons after opening the worldmap
+7.2a
+	- Fixed error messages for low level shamans without reincarnation spell
+7.2
+	- Rewrote tracker buttons, Mac clients should no longer crash
+	- Hopefully fixed totems disappearing from totem menus after dragging them
+	- Fixed buff style not showing timers in combat
+	- Fixed timers not continuing while world map is open
+	- Added status bars to time display
+	- Added new key bindings:
+		- all totems
+		- all weapon buffs
+		- cast Earth Shield on self
+	- Remaining duration of Earth Shield added to its tracker
+	- Set mouseclicks on timers to respond to ButtonDown events,
+	  so you can open a totem menu and cast a totem with your keyboard without
+	  pauses between keypresses, just as if you would press a key combination like CTRL-C
+	- Now all 4 weapon buffs can be set to the weapon buff tracker,
+	  you can access them by shift- or ctrl-clicking the button
+	- Added option to set the order of the keybindings of the buttons in the popup menus
+	  from 9-1 instead of 1-9
+	- Tracker buttons flash when buffs/shields expire
+	- Warning messages when buffs/shields expire
+	- Show spell icons with SCT warning messages
+	- Added chat messages as new mode for warning messages
+	- Updated zhCN localization, thanks to Sabre
+
+
+7.1g
+	- TotemTimers_TrackerFrame now hidden on load
+	- Fixed "free" arrangement of the tracker icons
+
+7.1f
+	- Fixed error message when loading TT on non-shaman chars
+	- Fixed Spanish localization
+	- Raised max button size
+	- Disabled Earth Shield Tracker on Mac Clients
+	- Fixed dead space if all trackers are hidden
+	- Fixed keybindings
+	- Added Spanish locale
+	- Warnings will use pre-7.1 colors, if SCT or MSBT is not used
+	- Fixed layering of the frames, the proc bars should be visible now
+	- Small bugfixes
+7.1
+	- Added options gui, open with /tt or /totemtimers
+	- Added Lightning/Water Shield Tracker, leftclick to cast Lighning Shield, 
+	  rightlick to cast Water Shield
+	- Added Earth Shield Tracker, leftclick to cast on focus,
+	  rightclick to cast on target, middleclick to cast on targettarget
+	- Added Main-/Off-Hand Weapon Buff Tracker, you can set the buffs cast
+	  with left and rightclick in the options gui
+	- Readded Buff Style, only usable when Recasting is disabled
+	- Removed many problems with invisible timers
+	- While not in combat, a macro "TT Cast" will be automatically created and updated
+          which contains the current totem setup in a castsequence
+	- TotemTimers will now add new learned totems on the fly
+	- Added option to scale timer buttons and time text height
+	- Added option to shout warnings in raid/party channel if you
+	  cast Mana Tide, Earth Elemental or Fire Elemental
+	- Changed message colors
+	- Changed the way recasting is disabled, timers should now be movable with
+	  disabled recasting
+	- Settings are saved per character
+	- Timers will flash in unison with Blizzard's buff display
+
+7.0b:
+	- Small bugfix
+7.0:
+	- Added new BC totems and totem ranks
+	- Implemented totem casting with timer buttons, see readme.txt for details,
+	  toggle with /tt recast
+	- Added reincarnation cooldown timer, toggle it with /tt ankh
+	- Added a green proc statusbar that fills the icon until a totem procs and then starts again,
+	  toggle with /tt procflash
+	- Added /tt version command, prints the actual version of TotemTimers
+	- Added option to display messages with SCT or MSBT (/tt msg sct  or /tt msg msbt)
+	- Rewrote totem detection routine again, using new "UNIT_SPELLCAST_SUCCEEDED"-event.
+	  Totem detection should be more robust while using much less code.
+	- Button flashing is now available in red instead of only changing opacity.
+	  Toggle with /tt flash.
+	- Buff display style is no longer available in this version, use fixed style instead.
+
+Ver. 1.14.2007:
+	- Added support for Totemic Call.
+	- Messages can now be displayed using SCT. See /tt msg tt and /tt msg sct commands.
+	- You have to do a /tt reset to use this version!

@@ -1,0 +1,133 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../UI.xsd">
+
+	<Button name="TotemTimers_GUI_Down" virtual="true">
+		<Size>
+			<AbsDimension x="24" y="24"/>
+		</Size>
+		<Scripts>
+			<OnClick>
+				TotemTimers_GUI_Down_OnClick(self)
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Up"/>
+		<PushedTexture name="$parentPushedTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Down"/>
+		<HighlightTexture name="$parentHighlightTexture" file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+	</Button>
+	
+	<CheckButton name="TotemTimers_GUI_CheckHide" inherits="OptionsCheckButtonTemplate" virtual="true">
+		<Scripts>
+			<OnShow>
+				self:SetChecked(TotemTimers_Settings["Hide"..string.sub(self:GetName(), 26)])
+			</OnShow>
+			<OnClick>
+				TotemTimers_Settings["Hide"..string.sub(self:GetName(), 26)] = self:GetChecked()
+				TotemTimers_CalcActiveOrder()
+				TotemTimers_ReprogramSlaveButtons()
+				TotemTimers_ReorderElements()
+			</OnClick>
+		</Scripts>
+	</CheckButton>
+
+	<Button name="TotemTimers_GUI_Up" virtual="true">
+		<Size>
+			<AbsDimension x="24" y="24"/>
+		</Size>
+		<Scripts>
+			<OnClick>
+				TotemTimers_GUI_Up_OnClick(self)
+			</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\ChatFrame\UI-ChatIcon-ScrollUp-Up"/>
+		<PushedTexture name="$parentPushedTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollUp-Down"/>
+		<HighlightTexture name="$parentHighlightTexture" file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+	</Button>
+
+  <Frame name="TotemTimers_GUI_WaterTotems" hidden="true">
+	<Scripts>
+		<OnLoad>
+			this.name = TT_WATER
+			this.parent = "TotemTimers "..tostring(GetAddOnMetadata("TotemTimers", "Version"))
+			InterfaceOptions_AddCategory(this)
+			this:RegisterEvent("PLAYER_REGEN_DISABLED")
+		</OnLoad>
+		<OnShow>
+			TotemTimers_LastGUIPane = this
+			if InCombatLockdown() then
+				InterfaceOptionsFrame:Hide()
+			end
+			TotemTimers_GUI_Totems_OnShow(self, WATER_TOTEM_SLOT)
+		</OnShow>
+		<OnEvent>
+			InterfaceOptionsFrame:Hide()
+		</OnEvent>
+	</Scripts>			
+  </Frame>
+  
+  <Frame name="TotemTimers_GUI_FireTotems" hidden="true">
+	<Scripts>
+		<OnLoad>
+			this.name = TT_FIRE
+			this.parent = "TotemTimers "..tostring(GetAddOnMetadata("TotemTimers", "Version"))
+			InterfaceOptions_AddCategory(this)
+			this:RegisterEvent("PLAYER_REGEN_DISABLED")
+		</OnLoad>
+		<OnShow>
+			TotemTimers_LastGUIPane = this
+			if InCombatLockdown() then
+				InterfaceOptionsFrame:Hide()
+			end
+			TotemTimers_GUI_Totems_OnShow(self, FIRE_TOTEM_SLOT)
+		</OnShow>
+		<OnEvent>
+			InterfaceOptionsFrame:Hide()
+		</OnEvent>
+	</Scripts>			
+  </Frame>
+
+  <Frame name="TotemTimers_GUI_AirTotems" hidden="true">
+	<Scripts>
+		<OnLoad>
+			this.name = TT_AIR
+			this.parent = "TotemTimers "..tostring(GetAddOnMetadata("TotemTimers", "Version"))
+			InterfaceOptions_AddCategory(this)
+			this:RegisterEvent("PLAYER_REGEN_DISABLED")
+		</OnLoad>
+		<OnShow>
+			TotemTimers_LastGUIPane = this
+			if InCombatLockdown() then
+				InterfaceOptionsFrame:Hide()
+			end
+			TotemTimers_GUI_Totems_OnShow(self, AIR_TOTEM_SLOT)
+		</OnShow>
+		<OnEvent>
+			InterfaceOptionsFrame:Hide()
+		</OnEvent>
+	</Scripts>			
+  </Frame>
+  
+  <Frame name="TotemTimers_GUI_EarthTotems" hidden="true">
+	<Scripts>
+		<OnLoad>
+			this.name = TT_EARTH
+			this.parent = "TotemTimers "..tostring(GetAddOnMetadata("TotemTimers", "Version"))
+			InterfaceOptions_AddCategory(this)
+			this:RegisterEvent("PLAYER_REGEN_DISABLED")
+		</OnLoad>
+		<OnShow>
+			TotemTimers_LastGUIPane = this
+			if InCombatLockdown() then
+				InterfaceOptionsFrame:Hide()
+			end
+			TotemTimers_GUI_Totems_OnShow(self, EARTH_TOTEM_SLOT)
+		</OnShow>
+		<OnEvent>
+			InterfaceOptionsFrame:Hide()
+		</OnEvent>
+	</Scripts>			
+  </Frame>
+    
+
+ 
+</Ui>
+
+

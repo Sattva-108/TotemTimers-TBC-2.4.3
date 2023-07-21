@@ -1,0 +1,1002 @@
+﻿<!--
+original authors: Donald Ephraim Curtis, Grumpey
+current authors:  Zulah, Xianghar
+TotemTimers: Movable Totem Timers and Totem Expiration Notification and Totem Casting Bars
+-->
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../UI.xsd">
+
+  <Button name="TotemTimersTabButtonTemplate" inherits="CharacterFrameTabButtonTemplate" virtual="true">
+    <Scripts>
+      <OnClick>
+        PanelTemplates_Tab_OnClick(TotemTimers_GUIFrame)
+        TotemTimers_GUI_UpdateTabs()
+      </OnClick>
+    </Scripts>
+  </Button>
+
+  <CheckButton name="TotemTimersCheckButtonTemplate" inherits="OptionsCheckButtonTemplate" virtual="true">
+    <Scripts>
+      <OnShow>
+        getglobal(this:GetName().."Text"):SetText(GetText("TT_GUI_CHECK"..string.upper(string.gsub(this:GetName(), "TotemTimers_GUI_Check", ""))))
+        this:SetChecked(TotemTimers_Settings[string.gsub(this:GetName(), "TotemTimers_GUI_Check", "")])
+      </OnShow>
+      <OnClick>
+        TotemTimers_Settings[string.gsub(this:GetName(), "TotemTimers_GUI_Check", "")] = this:GetChecked() == 1
+        TotemTimers_ProcessSetting(string.gsub(this:GetName(), "TotemTimers_GUI_Check", ""))
+        TotemTimers_GUIFrame:Hide()
+        TotemTimers_GUIFrame:Show()
+      </OnClick>
+      <OnEnter>
+        TotemTimers_GUI_ShowTooltip("TT_GUI_TOOLTIP"..string.upper(string.gsub(this:GetName(), "TotemTimers_GUI_Check", "")))
+      </OnEnter>
+      <OnLeave>
+        GameTooltip:Hide()
+      </OnLeave>
+    </Scripts>
+  </CheckButton>
+
+  <Slider name="TotemTimersSliderTemplate" inherits="OptionsSliderTemplate">
+    <Scripts>
+      <OnEnter>
+      </OnEnter>
+      <OnLeave>
+      </OnLeave>
+    </Scripts>  
+  </Slider>
+  
+  <Frame name="TotemTimers_GUIFrame" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="true" parent="UIParent">
+    <Size x="430" y="340"/>
+    <Anchors>
+      <Anchor point="CENTER"/>
+    </Anchors>
+    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+      <BackgroundInsets>
+        <AbsInset left="11" right="12" top="12" bottom="11"/>
+      </BackgroundInsets>
+      <TileSize>
+        <AbsValue val="32"/>
+      </TileSize>
+      <EdgeSize>
+        <AbsValue val="32"/>
+      </EdgeSize>
+    </Backdrop>
+    <Layers>
+      <Layer level="ARTWORK">
+        <Texture name="TotemTimers_GUIHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+          <Size x="356" y="64"/>
+          <Anchors>
+            <Anchor point="TOP">
+              <Offset x="0" y="12"/>
+            </Anchor>
+          </Anchors>
+        </Texture>
+        <FontString name="TotemTimers_GUIHeaderText" inherits="GameFontNormal" text="TT_GUI_HEADER">
+          <Anchors>
+            <Anchor point="TOP" relativeTo="TotemTimers_GUIHeader">
+              <Offset x="0" y="-14"/>
+            </Anchor>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+        <Anchors>
+          <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
+            <Offset x="-5" y="-5"/>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            this:GetParent():Hide();
+          </OnClick>
+        </Scripts>
+      </Button>
+      <Frame name="$parentPage1" hidden="false">
+        <Anchors>
+          <Anchor point="TOPLEFT"/>
+          <Anchor point="BOTTOMRIGHT"/>
+        </Anchors>
+        <Layers>
+          <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormal" text="TT_GUI_TAB1">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent">
+                  <Offset  x="20" y="-30"/>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <FontString name="TotemTimers_GUI_ArrangeText" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_DROPDOWN_ARRANGE">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent">
+                  <Offset x="20" y="-190"/>
+                </Anchor>
+              </Anchors>
+              <Size x="70" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_StyleText" inherits="GameFontNormalSmall" justifyH="LEFT"  text="TT_GUI_DROPDOWN_STYLE">
+              <Anchors>
+                <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_ArrangeText">
+                  <Offset x="0" y="-20"/>
+                </Anchor>
+              </Anchors>
+              <Size x="70" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TimeText" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_DROPDOWN_TIME">
+              <Anchors>
+                <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_StyleText">
+                  <Offset x="0" y="-20"/>
+                </Anchor>
+              </Anchors>
+              <Size x="70" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_MsgText" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_DROPDOWN_MSG">
+              <Anchors>
+                <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_TimeText">
+                  <Offset x="0" y="-20"/>
+                </Anchor>
+              </Anchors>
+              <Size x="70" y="10"/>
+            </FontString>
+          </Layer>
+        </Layers>
+        <Frames>
+          <CheckButton name="TotemTimers_GUI_CheckShow" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset x="20" y="-45"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckLock" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShow">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckExpirationWarning" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckLock">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckExpirationNotification" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckExpirationWarning">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckDestroyedNotification" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckExpirationNotification">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckRecast" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset x="260" y="-45"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckFlashRed" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckRecast">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckProcFlash" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckFlashRed">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckTooltips" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckProcFlash">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckMiniIcons" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckTooltips">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckMouseOver" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckMiniIcons">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <Button name="TotemTimers_GUI_DropdownArrange" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_ArrangeText">
+                <Offset x="0" y="-4"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownArrange_OnLoad)
+              </OnLoad>
+              <OnShow>
+                TotemTimers_GUI_DropdownArrange_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_DropdownStyle" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_StyleText">
+                <Offset x="0" y="-4"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                --UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownStyle_OnLoad)
+              </OnLoad>
+              <OnShow>
+                TotemTimers_GUI_DropdownStyle_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_DropdownTime" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TimeText">
+                <Offset x="0" y="-4"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownTime_OnLoad)
+              </OnLoad>
+              <OnShow>
+                TotemTimers_GUI_DropdownTime_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_DropdownMsg" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_MsgText">
+                <Offset x="0" y="-4"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownMsg_OnLoad)
+              </OnLoad>
+              <OnShow>
+                TotemTimers_GUI_DropdownMsg_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_Debug" inherits="UIPanelButtonTemplate" text="TT_GUI_DEBUG" hidden="false">
+            <Size x="100" y="21"/>
+            <Anchors>
+              <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
+                <Offset x="-13" y="13"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnClick>
+                TotemTimers_GUIFrame:Hide()
+                TotemTimers_Debug:Show()
+              </OnClick>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_Reset" inherits="UIPanelButtonTemplate" text="TT_GUI_RESET" hidden="false">
+            <Size x="100" y="21"/>
+            <Anchors>
+              <Anchor point="BOTTOM" relativePoint="TOP" relativeTo="TotemTimers_GUI_Debug">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnClick>
+                DEFAULT_CHAT_FRAME:AddMessage(TT_RESET);
+                TotemTimers_Order = nil
+                TotemTimers_Settings = nil
+                TotemTimers_SetupVariables()
+                TotemTimersFrame:ClearAllPoints();
+                TotemTimersFrame:SetPoint("CENTER", "UIParent", "CENTER");
+                TotemTimers_Ankh:ClearAllPoints();
+                TotemTimers_Ankh:SetPoint("CENTER", "UIParent", "CENTER");
+                TotemTimers_TrackerFrame:ClearAllPoints();
+                TotemTimers_TrackerFrame:SetPoint("CENTER", "UIParent", "CENTER");
+                TotemTimers_Shield:ClearAllPoints();
+                TotemTimers_Shield:SetPoint("CENTER", "UIParent", "CENTER");
+                TotemTimers_EarthShield:ClearAllPoints();
+                TotemTimers_EarthShield:SetPoint("CENTER", "UIParent", "CENTER");
+                TotemTimers_MainHand:ClearAllPoints();
+                TotemTimers_MainHand:SetPoint("CENTER", "UIParent", "CENTER");
+                TotemTimers_UpdateAllButtons()
+                TotemTimers_ReorderElements()
+                TotemTimers_GUIFrame:Hide()
+                TotemTimers_GUIFrame:Show()
+                for k,_ in pairs(TotemTimers_Settings) do
+                if k ~= "Totems" then
+                TotemTimers_ProcessSetting(k)
+                end
+                end
+              </OnClick>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_ResetPosition" inherits="UIPanelButtonTemplate" text="TT_GUI_RESETPOS" hidden="false">
+            <Size x="100" y="21"/>
+            <Anchors>
+              <Anchor point="BOTTOM" relativePoint="TOP" relativeTo="TotemTimers_GUI_Reset">
+                <Offset x="0" y="5"/> 
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnClick>
+                TotemTimersFrame:ClearAllPoints()
+                TotemTimersFrame:SetPoint("CENTER", "UIParent", "CENTER")
+                TotemTimers_Ankh:ClearAllPoints()
+                TotemTimers_Ankh:SetPoint("CENTER", "UIParent", "CENTER")
+                TotemTimers_TrackerFrame:ClearAllPoints();
+                TotemTimers_TrackerFrame:SetPoint("CENTER", "UIParent", "CENTER");
+                TotemTimers_Shield:ClearAllPoints();
+                TotemTimers_Shield:SetPoint("CENTER", "UIParent", "CENTER");
+                TotemTimers_EarthShield:ClearAllPoints();
+                TotemTimers_EarthShield:SetPoint("CENTER", "UIParent", "CENTER");
+                TotemTimers_MainHand:ClearAllPoints();
+                TotemTimers_MainHand:SetPoint("CENTER", "UIParent", "CENTER");
+                TotemTimers_UpdateAllButtons()
+                TotemTimers_ReorderElements()
+                TotemTimers_OrderTrackers()
+              </OnClick>
+            </Scripts>
+          </Button>
+        </Frames>
+      </Frame>
+      <Frame name="$parentPage2" hidden="true">
+        <Anchors>
+          <Anchor point="TOPLEFT"/>
+          <Anchor point="BOTTOMRIGHT"/>
+        </Anchors>
+        <Layers>
+          <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormal" text="TT_GUI_TAB2">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent">
+                  <Offset x="20" y="-30"/>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextBarDirection" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_BARDIRECTION">
+              <Anchors>
+                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent">
+                  <Offset x="20" y="40"/>
+                </Anchor>
+              </Anchors>
+              <Size x="120" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextOrder1" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_ORDER1">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent">
+                  <Offset x="20" y="-45"/>
+                </Anchor>
+              </Anchors>
+              <Size x="80" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextOrder2" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_ORDER2">
+              <Anchors>
+                <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_TextOrder1">
+                  <Offset x="0" y="-20"/>
+                </Anchor>
+              </Anchors>
+              <Size x="80" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextOrder3" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_ORDER3">
+              <Anchors>
+                <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_TextOrder2">
+                  <Offset x="0" y="-20"/>
+                </Anchor>
+              </Anchors>
+              <Size x="80" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextOrder4" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_ORDER4">
+              <Anchors>
+                <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_TextOrder3">
+                  <Offset x="0" y="-20"/>
+                </Anchor>
+              </Anchors>
+              <Size x="80" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextTimerSize" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_TIMERSIZE">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextOrder4">
+                  <Offset x="0" y="-35"/>
+                </Anchor>
+              </Anchors>
+              <Size x="80" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextTimeHeight" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_TIMEHEIGHT">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextTimerSize">
+                  <Offset x="0" y="-20"/>
+                </Anchor>
+              </Anchors>
+              <Size x="80" y="10"/>
+            </FontString>			
+          </Layer>
+        </Layers>
+        <Frames>
+		  <CheckButton name="TotemTimers_GUI_CheckBarBindings" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_TextTimeHeight">
+                <Offset x="0" y="-10"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+		  <CheckButton name="TotemTimers_GUI_CheckReverseBarBindings" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckBarBindings">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+		  <CheckButton name="TotemTimers_GUI_CheckShowBar" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_CheckBarBindings">
+                <Offset x="180" y="0"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <Button name="TotemTimers_GUI_DropdownBarDirection" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextBarDirection">
+                <Offset x="0" y="-4"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnShow>
+                TotemTimers_GUI_DropdownBarDirection_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_DropdownOrder1" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextOrder1">
+                <Offset x="0" y="-4"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownOrder_OnLoad)
+              </OnLoad>
+              <OnShow>
+                TotemTimers_GUI_DropdownOrder_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <CheckButton name="TotemTimers_GUI_CheckVisible1" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_DropdownOrder1">
+                <Offset x="115" y="0"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <Button name="TotemTimers_GUI_DropdownOrder2" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextOrder2">
+                <Offset x="0" y="-4"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownOrder_OnLoad)
+              </OnLoad>
+              <OnShow>
+                TotemTimers_GUI_DropdownOrder_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <CheckButton name="TotemTimers_GUI_CheckVisible2" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_DropdownOrder2">
+                <Offset x="115" y="0"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <Button name="TotemTimers_GUI_DropdownOrder3" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextOrder3">
+                <Offset x="0" y="-4"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownOrder_OnLoad)
+              </OnLoad>
+              <OnShow>
+                TotemTimers_GUI_DropdownOrder_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <CheckButton name="TotemTimers_GUI_CheckVisible3" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_DropdownOrder3">
+                <Offset x="115" y="0"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <Button name="TotemTimers_GUI_DropdownOrder4" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextOrder4">
+                <Offset x="0" y="-4"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownOrder_OnLoad)
+              </OnLoad>
+              <OnShow>
+                TotemTimers_GUI_DropdownOrder_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+           <CheckButton name="TotemTimers_GUI_CheckVisible4" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_DropdownOrder4">
+                <Offset x="115" y="0"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+         <Slider name="TotemTimers_GUI_TimerSize" enableMouse="true" valueStep="1" minValue="1" maxValue="64" inherits="OptionsSliderTemplate" hidden="false">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextTimerSize">
+                <Offset x="0" y="0"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                getglobal(this:GetName().."High"):SetText(64)
+                getglobal(this:GetName().."Low"):SetText(1)
+              </OnLoad>
+              <OnShow>
+                this:SetValue(TotemTimers_Settings.TimerSize)
+              </OnShow>
+              <OnValueChanged>
+                TotemTimers_Settings.TimerSize = this:GetValue()
+                GameTooltip:SetText(TotemTimers_Settings.TimerSize)
+                TotemTimers_ReorderElements()
+              </OnValueChanged>
+              <OnEnter>
+                GameTooltip:SetOwner(this, "ANCHOR_CURSOR")
+                GameTooltip:SetText(TotemTimers_Settings.TimerSize)
+              </OnEnter>
+              <OnLeave>
+                GameTooltip:Hide()
+              </OnLeave>
+            </Scripts>
+          </Slider>
+          <Slider name="TotemTimers_GUI_TimeHeight" valueStep="1" minValue="1" maxValue="40" inherits="OptionsSliderTemplate" hidden="false">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextTimeHeight">
+                <Offset x="0" y="0"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                getglobal(this:GetName().."High"):SetText(40);
+                getglobal(this:GetName().."Low"):SetText(1);
+              </OnLoad>
+              <OnShow>
+                this:SetValue(TotemTimers_Settings.TimeHeight);
+              </OnShow>
+              <OnValueChanged>
+                TotemTimers_Settings.TimeHeight = this:GetValue()
+                GameTooltip:SetText(TotemTimers_Settings.TimeHeight)
+                TotemTimers_ReorderElements()
+              </OnValueChanged>
+              <OnEnter>
+                GameTooltip:SetOwner(this, "ANCHOR_CURSOR")
+                GameTooltip:SetText(TotemTimers_Settings.TimeHeight)
+              </OnEnter>
+              <OnLeave>
+                GameTooltip:Hide()
+              </OnLeave>
+            </Scripts>
+          </Slider>
+        </Frames>
+      </Frame>
+      <Frame name="$parentPage3" hidden="true">
+        <Anchors>
+          <Anchor point="TOPLEFT"/>
+          <Anchor point="BOTTOMRIGHT"/>
+        </Anchors>
+        <Layers>
+          <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormal" text="TT_GUI_TAB3">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent">
+                  <Offset x="20" y="-30"/>
+                </Anchor>
+              </Anchors>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextTrackerSize" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_TRACKERSIZE">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+                  <Offset x="20" y="-160"/>
+                </Anchor>
+              </Anchors>
+              <Size>
+                <AbsDimension x="110" y="10"/>
+              </Size>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextTrackerTimeHeight" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_TRACKERTIMEHEIGHT">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextTrackerSize">
+                  <Offset x="0" y="-20"/>
+                </Anchor>
+              </Anchors>
+              <Size x="110" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextWeaponBuffLeftClick" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_WEAPONBUFFLEFTCLICK">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextTrackerTimeHeight">
+                  <Offset x="0" y="-20"/>
+                </Anchor>
+              </Anchors>
+              <Size x="150" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextWeaponBuffRightClick" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_WEAPONBUFFRIGHTCLICK">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextWeaponBuffLeftClick">
+                  <Offset x="40" y="0"/>
+                </Anchor>
+              </Anchors>
+              <Size x="150" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextWeaponBuffModifier" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_WEAPONBUFFMODIFIER">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextWeaponBuffLeftClick">
+                  <Offset x="0" y="-70"/>
+                </Anchor>
+              </Anchors>
+              <Size x="80" y="10"/>
+            </FontString>
+            <FontString name="TotemTimers_GUI_TextTrackerArrange" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_DROPDOWN_ARRANGE">
+              <Anchors>
+                <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="$parent">
+                  <Offset x="-50" y="-157"/>
+                </Anchor>
+              </Anchors>
+              <Size x="110" y="10"/>
+            </FontString>
+          </Layer>
+        </Layers>
+        <Frames>
+          <CheckButton name="TotemTimers_GUI_CheckReincarnation" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset x="20" y="-45"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckShieldTracker" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckReincarnation">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckEarthShieldTracker" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShieldTracker">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckMainEnchant" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckEarthShieldTracker">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckShieldNotification" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset x="240" y="-45"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckEarthShieldNotification" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShieldNotification">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <CheckButton name="TotemTimers_GUI_CheckWeaponNotification" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckEarthShieldNotification">
+                <Offset x="0" y="5"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <Slider name="TotemTimers_GUI_TrackerSize" valueStep="1" minValue="1" maxValue="64" inherits="OptionsSliderTemplate" hidden="false">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextTrackerSize"/>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                getglobal(this:GetName().."High"):SetText(64);
+                getglobal(this:GetName().."Low"):SetText(1);
+              </OnLoad>
+              <OnShow>
+                this:SetValue(TotemTimers_Settings.TrackerSize);
+              </OnShow>
+              <OnValueChanged>
+                TotemTimers_Settings.TrackerSize = this:GetValue()
+                GameTooltip:SetText(TotemTimers_Settings.TrackerSize)
+                TotemTimers_OrderTrackers()
+              </OnValueChanged>
+              <OnEnter>
+                GameTooltip:SetOwner(this, "ANCHOR_CURSOR")
+                GameTooltip:SetText(TotemTimers_Settings.TrackerSize)
+              </OnEnter>
+              <OnLeave>
+                GameTooltip:Hide()
+              </OnLeave>
+            </Scripts>
+          </Slider>
+          <Slider name="TotemTimers_GUI_TrackerTimeHeight" valueStep="1" minValue="1" maxValue="40" inherits="OptionsSliderTemplate" hidden="false">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextTrackerTimeHeight"/>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                getglobal(this:GetName().."High"):SetText(40);
+                getglobal(this:GetName().."Low"):SetText(1);
+              </OnLoad>
+              <OnShow>
+                this:SetValue(TotemTimers_Settings.TrackerTimeHeight);
+              </OnShow>
+              <OnValueChanged>
+                TotemTimers_Settings.TrackerTimeHeight = this:GetValue()
+                GameTooltip:SetText(TotemTimers_Settings.TrackerTimeHeight)
+                TotemTimers_OrderTrackers()
+              </OnValueChanged>
+              <OnEnter>
+                GameTooltip:SetOwner(this, "ANCHOR_CURSOR")
+                GameTooltip:SetText(TotemTimers_Settings.TrackerTimeHeight)
+              </OnEnter>
+              <OnLeave>
+                GameTooltip:Hide()
+              </OnLeave>
+            </Scripts>
+          </Slider>
+          <Button name="TotemTimers_GUI_DropdownWeaponBuffLeftClick" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextWeaponBuffLeftClick">
+                <Offset x="-17" y="-2"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnShow>
+                TotemTimers_GUI_DropdownWeaponBuffLeftClick_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_DropdownWeaponBuffRightClick" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextWeaponBuffRightClick">
+                <Offset x="-17" y="-2"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnShow>
+                TotemTimers_GUI_DropdownWeaponBuffRightClick_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_DropdownWeaponBuffShiftLeftClick" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_DropdownWeaponBuffLeftClick">
+                <Offset x="0" y="2"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnShow>
+                TotemTimers_GUI_DropdownWeaponBuffShiftLeftClick_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_DropdownWeaponBuffShiftRightClick" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_DropdownWeaponBuffRightClick">
+                <Offset x="0" y="2"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnShow>
+                TotemTimers_GUI_DropdownWeaponBuffShiftRightClick_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_DropdownWeaponBuffModifier" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_TextWeaponBuffModifier">
+                <Offset x="0" y="-4"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnShow>
+                TotemTimers_GUI_DropdownWeaponBuffModifier_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+          <Button name="TotemTimers_GUI_DropdownTrackerArrange" inherits="UIDropDownMenuTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_TextTrackerArrange">
+                <Offset x="-17" y="-2"/>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnLoad>
+                UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownTrackerArrange_OnLoad)
+              </OnLoad>
+              <OnShow>
+                TotemTimers_GUI_DropdownTrackerArrange_OnShow()
+              </OnShow>
+            </Scripts>
+          </Button>
+        </Frames>
+      </Frame>
+      <Frame name="$parentPage4" hidden="true">
+        <Anchors>
+          <Anchor point="TOPLEFT"/>
+          <Anchor point="BOTTOMRIGHT"/>
+        </Anchors>
+        <Layers>
+          <Layer level="ARTWORK">
+            <FontString inherits="GameFontNormal" text="TT_GUI_TAB4">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent">
+                  <Offset x="20" y="-30"/>
+                </Anchor>
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+        <Frames>
+          <CheckButton name="TotemTimers_GUI_CheckEarthShout" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent">
+                <Offset x="20" y="-45"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <EditBox name="TotemTimers_GUI_EditEarthShout" multiLine="false" autoFocus="false" inherits="InputBoxTemplate">
+            <Size x="350" y="16"/>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_CheckEarthShout"/>
+            </Anchors>
+            <Scripts>
+              <OnShow>
+                this:SetText(TotemTimers_Settings.EarthShoutText)
+              </OnShow>
+              <OnTextChanged>
+                TotemTimers_Settings.EarthShoutText = this:GetText()
+              </OnTextChanged>
+            </Scripts>
+          </EditBox>
+          <CheckButton name="TotemTimers_GUI_CheckFireShout" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckEarthShout">
+                <Offset x="0" y="-35"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <EditBox name="TotemTimers_GUI_EditFireShout" multiLine="false" autoFocus="false" inherits="InputBoxTemplate">
+            <Size x="350" y="16"/>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_CheckFireShout"/>
+            </Anchors>
+            <Scripts>
+              <OnShow>
+                this:SetText(TotemTimers_Settings.FireShoutText)
+              </OnShow>
+              <OnTextChanged>
+                TotemTimers_Settings.FireShoutText = this:GetText()
+              </OnTextChanged>
+            </Scripts>
+          </EditBox>
+          <CheckButton name="TotemTimers_GUI_CheckManaShout" inherits="TotemTimersCheckButtonTemplate">
+            <Anchors>
+              <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckFireShout">
+                <Offset x="0" y="-35"/>
+              </Anchor>
+            </Anchors>
+          </CheckButton>
+          <EditBox name="TotemTimers_GUI_EditManaShout" frameStrata="DIALOG" multiLine="false" autoFocus="false" inherits="InputBoxTemplate">
+            <Size x="350" y="16"/>
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_CheckManaShout"/>
+            </Anchors>
+            <Scripts>
+              <OnShow>
+                this:SetText(TotemTimers_Settings.ManaShoutText)
+              </OnShow>
+              <OnTextChanged>
+                TotemTimers_Settings.ManaShoutText = this:GetText()
+              </OnTextChanged>
+            </Scripts>
+          </EditBox>
+        </Frames>
+      </Frame>
+      <!--<Frame name="$parentPage5" hidden="true">
+      </Frame>-->
+        <Button name="$parentTab1" inherits="TotemTimersTabButtonTemplate" id="1" text="TT_GUI_TAB1">
+        <Anchors>
+          <Anchor point="CENTER" relativePoint="BOTTOMLEFT">
+            <Offset x="60" y="-8"/>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="$parentTab2" inherits="TotemTimersTabButtonTemplate" id="2" text="TT_GUI_TAB2">
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parentTab1" relativePoint="RIGHT">
+            <Offset x="-16" y="0"/>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="$parentTab3" inherits="TotemTimersTabButtonTemplate" id="3" text="TT_GUI_TAB3">
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parentTab2" relativePoint="RIGHT">
+            <Offset x="-16" y="0"/>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="$parentTab4" inherits="TotemTimersTabButtonTemplate" id="4" text="TT_GUI_TAB4">
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parentTab3" relativePoint="RIGHT">
+            <Offset x="-16" y="0"/>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <!--<Button name="$parentTab5" inherits="TotemTimersTabButtonTemplate" id="5" text="TT_GUI_TAB5">
+        <Anchors>
+          <Anchor point="LEFT" relativeTo="$parentTab4" relativePoint="RIGHT">
+            <Offset x="-16" y="0"/>
+          </Anchor>
+        </Anchors>
+      </Button>-->
+    </Frames>
+    <Scripts>
+      <OnLoad>
+        PanelTemplates_SetNumTabs(this, 
+        4)
+        this.selectedTab = 1
+        PanelTemplates_UpdateTabs(this)
+        TotemTimers_GUI_OnLoad()
+        this:RegisterEvent("PLAYER_REGEN_DISABLED")
+      </OnLoad>
+      <OnShow>
+        if InCombatLockdown() then this:Hide() return end
+        PlaySound("UChatScrollButton");
+        TotemTimers_GUI_UpdateTabs()
+      </OnShow>
+      <OnHide>
+        PlaySound("UChatScrollButton");
+      </OnHide>
+      <OnEvent>
+        this:Hide()
+      </OnEvent>
+    </Scripts>
+  </Frame>
+</Ui>
+
+

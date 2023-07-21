@@ -1,0 +1,266 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../UI.xsd">
+
+  <CheckButton name="TotemTimersCheckButtonTemplate" inherits="OptionsCheckButtonTemplate" virtual="true">
+    <Scripts>
+      <OnShow>
+        getglobal(this:GetName().."Text"):SetText(GetText("TT_GUI_CHECK"..string.upper(string.gsub(this:GetName(), "TotemTimers_GUI_Check", ""))))
+        this:SetChecked(TotemTimers_Settings[string.gsub(this:GetName(), "TotemTimers_GUI_Check", "")])
+      </OnShow>
+      <OnClick>
+        TotemTimers_Settings[string.gsub(this:GetName(), "TotemTimers_GUI_Check", "")] = this:GetChecked() == 1
+        TotemTimers_ProcessSetting(string.gsub(this:GetName(), "TotemTimers_GUI_Check", ""))
+        self:GetParent():Hide()
+        self:GetParent():Show()
+      </OnClick>
+      <OnEnter>
+        TotemTimers_GUI_ShowTooltip("TT_GUI_TOOLTIP"..string.upper(string.gsub(this:GetName(), "TotemTimers_GUI_Check", "")))
+      </OnEnter>
+      <OnLeave>
+        GameTooltip:Hide()
+      </OnLeave>
+    </Scripts>
+  </CheckButton>
+
+  <Slider name="TotemTimersSliderTemplate" inherits="OptionsSliderTemplate">
+    <Scripts>
+      <OnEnter>
+      </OnEnter>
+      <OnLeave>
+      </OnLeave>
+    </Scripts>  
+  </Slider>
+  
+  <Frame name="TotemTimers_GUI_General" hidden="true">
+	<Layers>
+	  <Layer level="ARTWORK">
+		<FontString name="TotemTimers_GUI_TimeFontText" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_TIMEFONT">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativeTo="$parent"> 
+				<Offset x="200" y="-45"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="80" y="10"/>
+		</FontString>
+		<FontString name="TotemTimers_GUI_TimerBarTextureText" inherits="GameFontNormalSmall" justifyH="left" text="TT_GUI_TIMERBARTEXTURE">
+		  <Anchors>
+			<Anchor point="TOPLEFT" relativeTo="$parent"> 
+				<Offset x="200" y="-95"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="80" y="10"/>
+		</FontString>
+	  </Layer>
+	</Layers>
+	<Frames>
+	  <CheckButton name="TotemTimers_GUI_CheckShow" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativeTo="$parent">
+			<Offset x="20" y="-25"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <Button name="TotemTimers_TimeFont" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="TotemTimers_GUI_TimeFontText">
+			<Offset x="-20" y="-15"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_TimeFont_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_TimeFont_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_TimerBarTexture" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="TotemTimers_GUI_TimerBarTextureText">
+			<Offset x="-20" y="-15"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_TimerBarTexture_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_TimerBarTexture_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	  <CheckButton name="TotemTimers_GUI_CheckLock" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShow">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckShowTotemsAsBuffs" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckLock">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckFlashRed" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShowTotemsAsBuffs">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>	  
+	  <CheckButton name="TotemTimers_GUI_CheckShowEarthElementalButton" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckFlashRed">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckShowFireElementalButton" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShowEarthElementalButton">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckShowManaTideButton" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShowFireElementalButton">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckTotemTwisting" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShowManaTideButton">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckSwitchAgiWf" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckTotemTwisting">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckDisableMenuDelay" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckSwitchAgiWf">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckFocusElementals" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckDisableMenuDelay">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckShowBar" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckFocusElementals">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckHideBlizzTimers" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShowBar">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <Button name="TotemTimers_GUI_Debug" inherits="UIPanelButtonTemplate" text="TT_GUI_DEBUG" hidden="false">
+		<Size x="100" y="21"/>
+		<Anchors>
+		  <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
+			<Offset x="-13" y="13"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnClick>
+			HideUIPanel(InterfaceOptionsFrame)
+			TotemTimers_Debug:Show()
+		  </OnClick>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_Reset" inherits="UIPanelButtonTemplate" text="TT_GUI_RESET" hidden="false">
+		<Size x="100" y="21"/>
+		<Anchors>
+		  <Anchor point="BOTTOM" relativePoint="TOP" relativeTo="TotemTimers_GUI_Debug">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnClick>
+			DEFAULT_CHAT_FRAME:AddMessage(TT_RESET);
+			TotemTimers_Order = nil
+			TotemTimers_Settings = nil
+			TTActiveTotems = nil
+			TotemTimers_SetupVariables()
+			TotemTimersFrame:ClearAllPoints();
+			TotemTimersFrame:SetPoint("CENTER", "UIParent", "CENTER");
+			TotemTimers_Ankh:ClearAllPoints();
+			TotemTimers_Ankh:SetPoint("CENTER", "UIParent", "CENTER");
+			TotemTimers_TrackerFrame:ClearAllPoints();
+			TotemTimers_TrackerFrame:SetPoint("CENTER", "UIParent", "CENTER");
+			TotemTimers_Shield:ClearAllPoints();
+			TotemTimers_Shield:SetPoint("CENTER", "UIParent", "CENTER");
+			TotemTimers_EarthShield:ClearAllPoints();
+			TotemTimers_EarthShield:SetPoint("CENTER", "UIParent", "CENTER");
+			TotemTimers_MainHand:ClearAllPoints();
+			TotemTimers_MainHand:SetPoint("CENTER", "UIParent", "CENTER");
+			ReloadUI();
+		  </OnClick>
+		</Scripts>
+	  </Button>
+	  <Button name="TotemTimers_GUI_ResetPosition" inherits="UIPanelButtonTemplate" text="TT_GUI_RESETPOS" hidden="false">
+		<Size x="100" y="21"/>
+		<Anchors>
+		  <Anchor point="BOTTOM" relativePoint="TOP" relativeTo="TotemTimers_GUI_Reset">
+			<Offset x="0" y="5"/> 
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnClick>
+			TotemTimersFrame:ClearAllPoints()
+			TotemTimersFrame:SetPoint("CENTER", "UIParent", "CENTER")
+			TotemTimers_Ankh:ClearAllPoints()
+			TotemTimers_Ankh:SetPoint("CENTER", "UIParent", "CENTER")
+			TotemTimers_TrackerFrame:ClearAllPoints();
+			TotemTimers_TrackerFrame:SetPoint("CENTER", "UIParent", "CENTER");
+			TotemTimers_Shield:ClearAllPoints();
+			TotemTimers_Shield:SetPoint("CENTER", "UIParent", "CENTER");
+			TotemTimers_EarthShield:ClearAllPoints();
+			TotemTimers_EarthShield:SetPoint("CENTER", "UIParent", "CENTER");
+			TotemTimers_MainHand:ClearAllPoints();
+			TotemTimers_MainHand:SetPoint("CENTER", "UIParent", "CENTER");
+			TotemTimers_UpdateAllButtons()
+			TotemTimers_ReorderElements()
+			TotemTimers_OrderTrackers()
+		  </OnClick>
+		</Scripts>
+	  </Button>
+	</Frames>
+	<Scripts>
+		<OnLoad>
+			this.name = "TotemTimers "..tostring(GetAddOnMetadata("TotemTimers", "Version"))
+			this.collapsed = true
+			InterfaceOptions_AddCategory(this)
+			this:RegisterEvent("PLAYER_REGEN_DISABLED")
+		</OnLoad>
+		<OnShow>
+			TotemTimers_LastGUIPane = this
+		</OnShow>
+		<OnEvent>
+			InterfaceOptionsFrame:Hide()
+		</OnEvent>
+	</Scripts>
+  </Frame>
+
+</Ui>
+
+

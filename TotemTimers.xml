@@ -1,0 +1,452 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+  <Button name="TotemTimerElementTemplate" frameStrata="LOW" movable="true" enableMouse="true" virtual="true" inherits="SecureActionButtonTemplate, SecureAnchorEnterTemplate, ActionButtonTemplate">
+    <Size>
+      <AbsDimension x="32" y="32"/>
+    </Size>
+    <Layers>
+      <Layer level="OVERLAY">
+        <Texture name="$parentSpellIcon">
+          <Size>
+            <AbsDimension x="16" y="16"/>
+          </Size>
+          <Anchors>
+            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
+              <Offset x="0" y="0"/>
+            </Anchor>
+          </Anchors>
+        </Texture>
+		<Texture name="$parentParty1" file="Interface\AddOns\TotemTimers\dot">
+			<Size x="7" y="7"/>
+			<Anchors>
+				<Anchor point="TOPRIGHT" relativePoint="TOPLEFT">
+					<Offset x="0" y="0"/>
+				</Anchor>
+			</Anchors>
+		</Texture>
+		<Texture name="$parentParty2" file="Interface\AddOns\TotemTimers\dot">
+			<Size x="7" y="7"/>
+			<Anchors>
+				<Anchor point="TOP" relativeTo="$parentParty1" relativePoint="BOTTOM">
+					<Offset x="0" y="0"/>
+				</Anchor>
+			</Anchors>
+		</Texture>
+		<Texture name="$parentParty3" file="Interface\AddOns\TotemTimers\dot">
+			<Size x="7" y="7"/>
+			<Anchors>
+				<Anchor point="TOP" relativeTo="$parentParty2" relativePoint="BOTTOM">
+					<Offset x="0" y="0"/>
+				</Anchor>
+			</Anchors>
+		</Texture>
+		<Texture name="$parentParty4" file="Interface\AddOns\TotemTimers\dot">
+			<Size x="7" y="7"/>
+			<Anchors>
+				<Anchor point="TOP" relativeTo="$parentParty3" relativePoint="BOTTOM">
+					<Offset x="0" y="0"/>
+				</Anchor>
+			</Anchors>
+		</Texture>
+		<Texture name="$parentPlayerBuff" file="Interface\AddOns\TotemTimers\dot" hidden="true">
+			<Size x="7" y="7"/>
+			<Anchors>
+				<Anchor point="TOPLEFT" relativeTo="$parent">
+					<Offset x="3" y="-3"/>
+				</Anchor>
+			</Anchors>
+		</Texture>
+        <FontString name="$parentTime" inherits="GameFontNormalSmall" justifyH="CENTER">
+          <Size>
+            <AbsDimension x="60" y="10"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOP" relativePoint="BOTTOM"/>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+      <StatusBar name="$parentBar">
+        <Size>
+          <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+          <Anchor point="CENTER" relativePoint="CENTER"/>
+        </Anchors>
+        <!--<BarTexture name="$parentBar" frameStrata="LOW" file="Interface/TotemTimers/TimerBar"/>-->
+		<BarTexture file="Interface\TargetingFrame\UI-StatusBar"/> 
+        <BarColor r="0.0" g="0.8" b="0.0" a="0.7"/>
+        <Scripts>
+          <OnLoad>
+            --this:SetStatusBarColor(0.0,0.8,0.0,0.7)
+            this:SetMinMaxValues(0,5)
+            this:SetValue(0)
+            this:SetOrientation("VERTICAL")
+            --this:SetFrameLevel(this:GetFrameLevel() + 2)
+          </OnLoad>
+        </Scripts>
+      </StatusBar>
+      <StatusBar name="$parentTimerBar">
+        <Size>
+          <AbsDimension x="32" y="10"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOP" relativePoint="BOTTOM"/>
+        </Anchors>
+		<Backdrop bgFile="Interface/Tooltips/UI-Tooltip-Background" edgeFile="Interface/Tooltips/UI-Tooltip-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="1"/>
+			</EdgeSize>
+			<TileSize>
+				<AbsValue val="16"/>
+			</TileSize>
+			<BackgroundInsets>
+				<AbsInset left="0" right="0" top="0" bottom="0"/>
+			</BackgroundInsets>
+		</Backdrop>
+ 		<BarTexture file="Interface\TargetingFrame\UI-StatusBar"/> 
+        <BarColor r="0.2" g="0.2" b="1.0" a="0.7"/>
+		<Layers>
+		  <Layer level="OVERLAY">
+			<FontString name="$parentTime" inherits="GameFontNormalSmall" justifyH="CENTER">
+			  <Size>
+				<AbsDimension x="60" y="10"/>
+			  </Size>
+			  <Anchors>
+				<Anchor point="CENTER" relativePoint="CENTER"/>
+			  </Anchors>
+			</FontString>
+		  </Layer>
+		</Layers>
+        <Scripts>
+          <OnLoad>
+            this:SetMinMaxValues(0,5)
+            this:SetValue(0)
+			this:SetFrameLevel(this:GetParent():GetFrameLevel())
+          </OnLoad>
+        </Scripts>
+      </StatusBar> 
+    </Frames>
+    <NormalTexture name="$parentNormalTexture"/>
+    <PushedTexture file="Interface/Buttons/UI-Quickslot-Depress"/>
+    <HighlightTexture alphaMode="ADD" file="Interface/Buttons/ButtonHilight-Square"/>
+    <Scripts>
+      <!--<OnUpdate>
+        TotemTimerElement_OnUpdate(self, arg1)
+      </OnUpdate>-->
+      <OnDragStart>
+        TotemTimerElement_OnDragStart()
+      </OnDragStart>
+      <OnDragStop>
+        TotemTimerElement_OnDragStop()
+      </OnDragStop>
+    </Scripts>
+  </Button>
+
+  <Button name="TotemTimersTotemTemplate" movable="true" enableMouse="true" virtual="true" inherits="SecureActionButtonTemplate">
+    <Size>
+      <AbsDimension x="30" y="30" />
+    </Size>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture name="$parentIcon"/>
+      </Layer>
+      <Layer level="ARTWORK">
+        <FontString name="$parentHotKey" inherits="NumberFontNormalSmallGray" justifyH="RIGHT">
+          <Size>
+            <AbsDimension x="36" y="10"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOPRIGHT">
+              <Offset>
+                <AbsDimension x="-2" y="-2"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <NormalTexture name="$parentNormalTexture"/>
+    <PushedTexture file="Interface\Buttons\UI-Quickslot-Depress"/>
+    <HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+    <Scripts>
+      <OnEnter>
+        TotemTimers_ShowTotemToolTip(true)
+      </OnEnter>
+      <OnLeave>
+        TotemTimers_ShowTotemToolTip(false)
+      </OnLeave>
+      <OnUpdate>
+        if this:IsVisible() then
+          local _,nomana = IsUsableSpell(this.spell)
+          if nomana then
+            this.icon:SetVertexColor(0.5,0.5,1.0)
+          else
+            this.icon:SetVertexColor(1.0,1.0,1.0)
+          end
+        end
+      </OnUpdate>
+    </Scripts>
+  </Button>
+  
+
+  <Frame name="TotemTimersFrame" clampedToScreen="true" frameStrata="LOW" movable="true" enableMouse="true" hidden="true">
+    <Size>
+      <AbsDimension x="30" y="30" />
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER" relativePoint="CENTER"/>
+    </Anchors>
+    <Scripts>
+      <OnLoad>
+        TotemTimers_OnLoad()
+      </OnLoad>
+      <OnEvent>
+        TotemTimers_OnEvent(event, ...)
+      </OnEvent>
+      <OnUpdate>
+		TotemTimers_UpdateTimers(arg1)
+        if TotemTimers_ScheduleReorder then
+        TotemTimers_ScheduleReorder = false
+        TotemTimers_ReorderElements()
+        end
+        if TotemTimers_UpdatedSpells then
+        TotemTimers_UpdatedSpells = false
+        TotemTimers_SpellsChanged()
+        end
+        if TotemTimers_ReorderTrackers then
+        TotemTimers_ReorderTrackers = false
+        TotemTimers_OrderTrackers()
+        end
+		for e=1,4 do
+			if TotemTimers_NeedsUpdate[e] then
+				TotemTimers_NeedsUpdate[e] = false
+				TotemTimers_UpdateTotem(e)
+			end
+		end
+      </OnUpdate>
+	  <OnHide>
+		if not TotemTimers_IsEnabled then
+			for i=1,4 do
+				TotemTimers_Buttons[i].header:Hide()
+				TotemTimers_Buttons[i]:Hide()
+			end
+		end
+	  </OnHide>
+	  <OnShow>
+		if TotemTimers_IsEnabled then
+			for i=1,4 do
+				TotemTimers_Buttons[i].header:Show()
+				TotemTimers_Buttons[i]:Show()
+			end
+		end
+	  </OnShow>
+    </Scripts>
+  </Frame>
+  
+  <Button name="TotemTimers1" inherits="TotemTimerElementTemplate" parent="TotemTimersFrame" hidden="false"/>
+  <Button name="TotemTimers2" inherits="TotemTimerElementTemplate" parent="TotemTimersFrame" hidden="false"/>
+  <Button name="TotemTimers3" inherits="TotemTimerElementTemplate" parent="TotemTimersFrame" hidden="false"/>
+  <Button name="TotemTimers4" inherits="TotemTimerElementTemplate" parent="TotemTimersFrame" hidden="false"/>
+  
+  <Button name="TotemTimers_EarthElemental" hidden="true" inherits="TotemTimersTotemTemplate">
+	<Size x="26" y="26"/>
+	<Layers>
+		<Layer level="OVERLAY">
+			<FontString name="$parentTime" inherits="GameFontNormalSmall" justifyH="CENTER">
+			  <Size>
+				<AbsDimension x="26" y="9"/>
+			  </Size>
+			  <Anchors>
+				<Anchor point="TOP" relativePoint="BOTTOM"/>
+			  </Anchors>
+			</FontString>
+		</Layer>
+	</Layers>
+	<Scripts>
+		<OnLoad>
+			this:SetParent("TotemTimers"..EARTH_TOTEM_SLOT)
+			this:SetAttribute("*type1", "spell")
+			this:SetAttribute("spell1", TT_EARTH_ELEMENTAL)
+			this.spell = TT_EARTH_ELEMENTAL
+			this.icon = TotemTimers_EarthElementalIcon
+			this.cooldown = CreateFrame("Cooldown", this:GetName().."Cooldown", this, "CooldownFrameTemplate")
+			this.cooldown:SetAllPoints(this)
+			this.cooldown:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+			this.cooldown:SetScript("OnEvent", TotemTimers_TotemCooldown)
+		</OnLoad>
+		<OnShow>
+			TotemTimers_EarthElementalIcon:SetTexture(GetSpellTexture(TT_EARTH_ELEMENTAL))
+			local start, duration, enable = GetSpellCooldown(TT_EARTH_ELEMENTAL)
+			CooldownFrame_SetTimer(this.cooldown, start, duration, enable)
+		</OnShow>
+		<OnUpdate>
+		    if TotemTimers_EarthElementalCooldown.textFrame then
+				TotemTimers_EarthElementalCooldown.textFrame:Hide()
+			end
+		</OnUpdate>
+	</Scripts>
+  </Button>
+  
+  <Button name="TotemTimers_FireElemental" hidden="true" inherits="TotemTimersTotemTemplate">
+	<Size x="26" y="26"/>
+	<Layers>
+		<Layer level="OVERLAY">
+			<FontString name="$parentTime" inherits="GameFontNormalSmall" justifyH="CENTER">
+			  <Size>
+				<AbsDimension x="26" y="9"/>
+			  </Size>
+			  <Anchors>
+				<Anchor point="TOP" relativePoint="BOTTOM"/>
+			  </Anchors>
+			</FontString>
+		</Layer>
+	</Layers>
+	<Scripts>
+		<OnLoad>
+			this:SetParent("TotemTimers"..FIRE_TOTEM_SLOT)
+			this:SetAttribute("*type1", "spell")
+			this:SetAttribute("spell1", TT_FIRE_ELEMENTAL)
+			this.spell = TT_FIRE_ELEMENTAL
+			this.icon = TotemTimers_FireElementalIcon
+			this.cooldown = CreateFrame("Cooldown", this:GetName().."Cooldown", this, "CooldownFrameTemplate")
+			this.cooldown:SetAllPoints(this)
+			this.cooldown:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+			this.cooldown:SetScript("OnEvent", TotemTimers_TotemCooldown)
+		</OnLoad>
+		<OnShow>
+			TotemTimers_FireElementalIcon:SetTexture(GetSpellTexture(TT_FIRE_ELEMENTAL))
+			local start, duration, enable = GetSpellCooldown(TT_FIRE_ELEMENTAL)
+			CooldownFrame_SetTimer(this.cooldown, start, duration, enable)
+		</OnShow>
+		<OnUpdate>
+		    if TotemTimers_FireElementalCooldown.textFrame then
+				TotemTimers_FireElementalCooldown.textFrame:Hide()
+			end
+		</OnUpdate>
+	</Scripts>
+  </Button>
+  
+  <Button name="TotemTimers_ManaTide" hidden="true" inherits="TotemTimersTotemTemplate">
+	<Size x="23" y="23"/>
+	<Layers>
+		<Layer level="OVERLAY">
+			<FontString name="$parentTime" inherits="GameFontNormalSmall" justifyH="CENTER">
+			  <Size>
+				<AbsDimension x="26" y="9"/>
+			  </Size>
+			  <Anchors>
+				<Anchor point="TOP" relativePoint="BOTTOM"/>
+			  </Anchors>
+			</FontString>
+		</Layer>
+	</Layers>
+	<Scripts>
+		<OnLoad>
+			this:SetParent("TotemTimers"..WATER_TOTEM_SLOT)
+			this:SetAttribute("*type1", "spell")
+			this:SetAttribute("spell1", TT_MANA_TIDE)
+			this.spell = TT_MANA_TIDE
+			this.icon = TotemTimers_ManaTideIcon
+			this.cooldown = CreateFrame("Cooldown", this:GetName().."Cooldown", this, "CooldownFrameTemplate")
+			this.cooldown:SetAllPoints(this)
+			this.cooldown:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+			this.cooldown:SetScript("OnEvent", TotemTimers_TotemCooldown)
+		</OnLoad>
+		<OnShow>
+			TotemTimers_ManaTideIcon:SetTexture(GetSpellTexture(TT_MANA_TIDE))
+			local start, duration, enable = GetSpellCooldown(TT_MANA_TIDE)
+			CooldownFrame_SetTimer(this.cooldown, start, duration, enable)
+		</OnShow>
+		<OnUpdate>
+		    if TotemTimers_ManaTideCooldown.textFrame then
+				TotemTimers_ManaTideCooldown.textFrame:Hide()
+			end
+		</OnUpdate>
+	</Scripts>
+  </Button>
+  
+  <Button name="TotemTimers_ManaTrinket" hidden="true" inherits="TotemTimersTotemTemplate">
+	<Size x="16" y="16"/>
+	<Layers>
+		<Layer level="OVERLAY">
+			<FontString name="$parentTime" inherits="GameFontNormalSmall" justifyH="CENTER">
+			  <Size>
+				<AbsDimension x="60" y="10"/>
+			  </Size>
+			  <Anchors>
+				<Anchor point="TOP" relativePoint="BOTTOM"/>
+			  </Anchors>
+			</FontString>
+		</Layer>
+	</Layers>
+	<Scripts>
+		<OnLoad>
+			this:SetParent("TotemTimers"..WATER_TOTEM_SLOT)
+		</OnLoad>
+		<OnShow>
+			TotemTimers_ManaTrinketIcon:SetTexture(GetSpellTexture())
+		</OnShow>
+	</Scripts>
+  </Button>
+  
+  <Frame name="TotemTimers_TrackerFrame" clampedToScreen="true" frameStrata="LOW" movable="true" enableMouse="true" hidden="true">
+    <Size x="1" y="1" />
+    <Anchors>
+      <Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent"/>
+    </Anchors>
+	<Scripts>
+		<OnUpdate>
+			TotemTimers_UpdateTrackers(arg1);
+		</OnUpdate>
+	</Scripts>
+	
+	
+  </Frame>  
+	<ScrollFrame name="TotemTimers_DebugScrollFrame" hidden="true" inherits="UIPanelScrollFrameTemplate">
+		<Size>
+			<AbsDimension x="286" y="85"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER"/>
+		</Anchors>
+		<ScrollChild>
+			<EditBox name="TotemTimers_Debug" multiLine="true" maxLetters="999999">
+				<Size>
+					<AbsDimension x="286" y="85"/>
+				</Size>
+				<Scripts>
+					<OnEscapePressed>
+						this:ClearFocus();
+					</OnEscapePressed>
+
+				</Scripts>
+				<FontString inherits="GameFontHighlightSmall"/>
+			</EditBox>
+		</ScrollChild>
+		<Frames>
+			<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPRIGHT"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						this:GetParent():Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnShow>
+				TotemTimers_ShowDebug()
+			</OnShow>
+		</Scripts>
+	</ScrollFrame>
+
+
+
+</Ui>
+
+

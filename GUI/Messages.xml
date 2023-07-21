@@ -1,0 +1,93 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../UI.xsd">
+ 
+  <Frame name="TotemTimers_GUI_Messages" hidden="true">
+  	<Layers>
+	  <Layer level="ARTWORK">
+  		<FontString name="TotemTimers_GUI_MsgText" inherits="GameFontNormalSmall" justifyH="LEFT" text="TT_GUI_DROPDOWN_MSG">
+		  <Anchors>
+			<Anchor point="TOPLEFT"  relativeTo="$parent">
+			  <Offset x="20" y="-15"/>
+			</Anchor>
+		  </Anchors>
+		  <Size x="70" y="10"/>
+		</FontString>
+	  </Layer>
+	</Layers>
+	<Frames>
+	  <CheckButton name="TotemTimers_GUI_CheckExpirationWarning" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="TotemTimers_GUI_MsgText">
+			<Offset x="0" y="-5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckExpirationNotification" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckExpirationWarning">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckDestroyedNotification" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckExpirationNotification">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckShieldNotification" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckDestroyedNotification">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckEarthShieldNotification" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckShieldNotification">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <CheckButton name="TotemTimers_GUI_CheckWeaponNotification" inherits="TotemTimersCheckButtonTemplate">
+		<Anchors>
+		  <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="TotemTimers_GUI_CheckEarthShieldNotification">
+			<Offset x="0" y="5"/>
+		  </Anchor>
+		</Anchors>
+	  </CheckButton>
+	  <Button name="TotemTimers_GUI_DropdownMsg" inherits="UIDropDownMenuTemplate">
+		<Anchors>
+		  <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TotemTimers_GUI_MsgText">
+			<Offset x="0" y="-4"/>
+		  </Anchor>
+		</Anchors>
+		<Scripts>
+		  <OnLoad>
+			UIDropDownMenu_Initialize(this, TotemTimers_GUI_DropdownMsg_OnLoad)
+		  </OnLoad>
+		  <OnShow>
+			TotemTimers_GUI_DropdownMsg_OnShow()
+		  </OnShow>
+		</Scripts>
+	  </Button>
+	</Frames>
+	<Scripts>
+		<OnLoad>
+			this.name = TT_GUI_TAB_MESSAGES
+			this.parent = "TotemTimers "..tostring(GetAddOnMetadata("TotemTimers", "Version"))
+			InterfaceOptions_AddCategory(this)
+			this:RegisterEvent("PLAYER_REGEN_DISABLED")
+		</OnLoad>
+		<OnShow>
+			TotemTimers_LastGUIPane = this
+		</OnShow>
+		<OnEvent>
+			InterfaceOptionsFrame:Hide()
+		</OnEvent>
+	</Scripts>
+  </Frame>
+
+</Ui>
+
+
