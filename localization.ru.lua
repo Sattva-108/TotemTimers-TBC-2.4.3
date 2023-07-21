@@ -47,7 +47,7 @@ TT_SENTRY_EFFECT = "Сторожевой тотем"
 TT_STONECLAW = "Тотем каменного когтя";
 TT_STONESKIN = "Тотем каменной кожи";
 TT_STONESKIN_EFFECT = "Каменная кожа"
-TT_STRENGTH_OF_EARTH = "Тотем силы земли"; 
+TT_STRENGTH_OF_EARTH = "Тотем силы земли";
 TT_STRENGTH_OF_EARTH_EFFECT = "Сила земли"
 TT_TREMOR = "Тотем трепета";
 TT_TRANQUIL_AIR = "Тотем безветрия";
@@ -99,10 +99,63 @@ TT_TOTEM = " [IV]+"
 TT_NAME_STRING = "%s";
 TT_NAME_LEVEL_STRING = "%s %d";
 
+	---- 2.4.3 bug ruRU found and fixed by Sattva.
+	--- Why ? Because private server combat log is not fully localized.
+	--- IF on your server totem timers and icons do not work properly,
+	--- Go and download CurseForge 8.1d version and see if it works...
+	--- Here is how combat log looks for me and had to be fixed:
+	--- https://cdn.discordapp.com/attachments/766767499987386402/1131782235419324527/Wow_VOVOYKtvYs.png
 TT_COMBATLOG_TO_SPELL = {
 	["Ярость ветра"] = "Оружие неистовства ветра",
 	["Камнедробитель"] = "Оружие Камнедробителя",
 	["Язык пламени"] = "Оружие языка пламени",
-	["Ледяное клеймо"] = "Оружие ледяного клейма"
+	["Ледяное клеймо"] = "Оружие ледяного клейма",
+	["Disease Cleansing Totem"] = "Тотем очищения от болезней",
+	["Earthbind Totem"] = "Тотем оков земли",
+	["Fire Nova Totem"] = "Тотем кольца огня",
+	["Fire Resistance Totem"] = "Тотем сопротивления огню",
+	["Frost Resistance Totem"] = "Тотем сопротивления льду",
+	["Flametongue Totem"] = "Тотем языка пламени",
+	["Grace of Air Totem"] = "Тотем легкости воздуха",
+	["Grounding Totem"] = "Тотем заземления",
+	["Healing Stream Totem"] = "Тотем исцеляющего потока",
+	["Magma Totem"] = "Тотем магмы",
+	["Ancient Mana Spring Totem"] = "Тотем древнего источника маны",
+	["Mana Spring Totem"] = "Тотем источника маны",
+	["Mana Tide Totem"] = "Тотем прилива маны",
+	["Nature Resistance Totem"] = "Тотем сопротивления магии природы",
+	["Poison Cleansing Totem"] = "Тотем противоядия",
+	["Searing Totem"] = "Опаляющий тотем",
+	["Sentry Totem"] = "Сторожевой тотем",
+	["Stoneclaw Totem"] = "Тотем каменного когтя",
+	["Stoneskin Totem"] = "Тотем каменной кожи",
+	["Strength of Earth Totem"] = "Тотем силы земли",
+	["Tremor Totem"] = "Тотем трепета",
+	["Tranquil Air Totem"] = "Тотем безветрия",
+	["Windfury Totem"] = "Тотем неистовства ветра",
+	["Windwall Totem"] = "Тотем стены ветра",
+	["Totem of Wrath"] = "Тотем гнева",
+	["Wrath of Air Totem"] = "Тотем гнева воздуха",
+	["Earth Elemental Totem"] = "Тотем элементаля земли",
+	["Fire Elemental Totem"] = "Тотем элементаля огня",
+	["Greater Earth Elemental"] = "Элементаль земли",
+	["Greater Fire Elemental"] = "Элементаль огня",
+	["Fire Resistance"] = "Сопротивление огню",
+	["Frost Resistance"] = "Сопротивление магии льда",
+	["Grace of Air"] = "Легкость воздуха",
+	["Grounding Totem Effect"] = "Эффект Тотема заземления",
+	["Healing Stream"] = "Исцеляющий поток",
+	["Mana Spring"] = "Источник маны",
+	["Mana Tide"] = "Прилив маны",
+	["Nature Resistance"] = "Сопротивление силам природы",
+	["Sentry Totem"] = "Сторожевой тотем",
+	["Stoneskin"] = "Каменная кожа",
+	["Strength of Earth"] = "Сила земли",
+	["Tranquil Air"] = "Снижает угрозу",
+	["Windwall"] = "Стена ветра",
+	["Totem of Wrath"] = "Тотем гнева",
+	["Wrath of Air Totem"] = "Тотем гнева воздуха",
 }
 end
+
+
